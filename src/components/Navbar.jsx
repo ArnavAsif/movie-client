@@ -1,12 +1,16 @@
 import { Slide } from 'react-awesome-reveal';
 import logo from '../assets/logo.png'
 import { FaSearch } from "react-icons/fa";
+import { NavLink } from 'react-router';
+import { useContext } from 'react';
+import { AuthContext } from './AuthProvider/AuthProvider';
 
 
 
 const Navbar = () => {
+    const { user } = useContext(AuthContext);
     const links = <>
-        <li className='hover:text-[#e4d804]'><a href="">HOME</a></li>
+        <li className='hover:text-[#e4d804]'><NavLink to='/'>HOME</NavLink></li>
         <li className='hover:text-[#e4d804]'><a href="">MOVIE</a></li>
         <li className='hover:text-[#e4d804]'><a href="">TV SHOW</a></li>
         <li className='hover:text-[#e4d804]'><a href="">PRICING</a></li>
@@ -31,9 +35,13 @@ const Navbar = () => {
                 <div className="navbar-end">
                     <div className='flex gap-6 items-center'>
                         <FaSearch className='text-white text-xl' />
-                        <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>
-                            SIGN IN
-                        </button>
+                        {
+                            user ? <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>Sing Out</button> : <NavLink to='/signIn'>
+                                <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>
+                                    SIGN IN
+                                </button>
+                            </NavLink>
+                        }
                     </div>
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
