@@ -17,9 +17,11 @@ const Navbar = () => {
         <li className='hover:text-[#e4d804]'><a href="">BLOG</a></li>
         <li className='hover:text-[#e4d804]'><a href="">CONTACTS</a></li>
     </>
+
+
     return (
-        <Slide triggerOnce>
-            <div className="navbar  shadow-sm" >
+        <Slide className={`sticky top-0 z-50 bg-transparent  px-4 py-3`} triggerOnce>
+            <div className="navbar  shadow-sm sticky top-0 z-50 bg-transparent px-4 py-3" >
                 <div className="navbar-start">
 
                     <div className='flex gap-1 btn btn-ghost items-center p-0'>
@@ -36,11 +38,15 @@ const Navbar = () => {
                     <div className='flex gap-6 items-center'>
                         <FaSearch className='text-white text-xl' />
                         {
-                            user ? <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>Sing Out</button> : <NavLink to='/signIn'>
-                                <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>
-                                    SIGN IN
-                                </button>
-                            </NavLink>
+                            user ?
+                                <NavLink to='/signIn'><button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>Sing Out</button></NavLink> 
+
+                                :
+                                <NavLink to='/signIn'>
+                                    <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>
+                                        SIGN IN
+                                    </button>
+                                </NavLink>
                         }
                     </div>
                     <div className="dropdown">

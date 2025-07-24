@@ -27,7 +27,7 @@ const Headers = () => {
                             <p className='text-[#e3dfdf]'>128 min</p>
                         </div>
                     </div>
-                    <button className='flex items-center gap-2 bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-4 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>
+                    <button className='flex items-center gap-2 bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-4 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>
                         <FaPlay />
                         WATCH NOW
 
