@@ -1,101 +1,125 @@
 import { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router';
-import { FaSearch } from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { AuthContext } from './AuthProvider/AuthProvider';
-import { Slide } from 'react-awesome-reveal';
 
 const Navbar = () => {
-    const { user } = useContext(AuthContext);
-    const [showSticky, setShowSticky] = useState(false);
+  const { user, handleSignOut } = useContext(AuthContext);
+  const [showSticky, setShowSticky] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowSticky(window.scrollY > 850); // Show sticky after 850px scroll
-        };
+  useEffect(() => {
+    const handleScroll = () => setShowSticky(window.scrollY > 0);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+  const signOutUser = () => {
+    handleSignOut()
+      .then(() => console.log('Sign out success'))
+      .catch(error => console.log(error));
+  };
 
-    const links = (
-        <>
-            <li className='hover:text-[#e4d804]'><NavLink to='/'>HOME</NavLink></li>
-            <li className='hover:text-[#e4d804]'><a href="">MOVIE</a></li>
-            <li className='hover:text-[#e4d804]'><a href="">TV SHOW</a></li>
-            <li className='hover:text-[#e4d804]'><a href="">PRICING</a></li>
-            <li className='hover:text-[#e4d804]'><a href="">BLOG</a></li>
-            <li className='hover:text-[#e4d804]'><a href="">CONTACTS</a></li>
-        </>
-    );
+  const navLinkStyle = "relative text-sm xl:text-base font-semibold text-white hover:text-[#e4d804] transition duration-300";
+  const navLinkUnderline = "after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 hover:after:w-full after:bg-[#e4d804] after:transition-all after:duration-300";
 
-    const renderNavbarContent = () => (
-        <Slide triggerOnce>
-            <div className="navbar px-4 py-6">
-                <div className="navbar-start">
-                    <div className='flex gap-1 btn btn-ghost items-center p-0'>
-                        <img className='w-9' src={logo} alt="logo" />
-                        <a className="text-xl font-bold text-white">Movies For Life</a>
-                    </div>
-                </div>
+  const links = (
+    <>
+      <li><NavLink to="/" className={`${navLinkStyle} ${navLinkUnderline}`}>HOME</NavLink></li>
+      <li><NavLink to="/movies" className={`${navLinkStyle} ${navLinkUnderline}`}>MOVIE</NavLink></li>
+      <li><NavLink to="/tv" className={`${navLinkStyle} ${navLinkUnderline}`}>TV SHOW</NavLink></li>
+      <li><NavLink to="/pricing" className={`${navLinkStyle} ${navLinkUnderline}`}>PRICING</NavLink></li>
+      <li><NavLink to="/blog" className={`${navLinkStyle} ${navLinkUnderline}`}>BLOG</NavLink></li>
+      <li><NavLink to="/contacts" className={`${navLinkStyle} ${navLinkUnderline}`}>CONTACTS</NavLink></li>
+    </>
+  );
 
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 font-bold text-white">
-                        {links}
-                    </ul>
-                </div>
+  return (
+    <div
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500
+        ${showSticky ? 'bg-gray-900 bg-opacity-90 shadow-xl backdrop-blur' : 'bg-transparent'}
+      `}
+      style={{ backdropFilter: showSticky ? 'blur(8px)' : 'none' }}
+    >
+      <div className="mx-auto w-11/12 max-w-7xl flex items-center justify-between py-3">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="Logo" className="w-8 sm:w-10" />
+          <h1 className="text-white text-lg sm:text-xl font-extrabold whitespace-nowrap">Movies For Life</h1>
+        </div>
 
-                <div className="navbar-end">
-                    <div className='flex gap-6 items-center'>
-                        <FaSearch className='text-white text-xl' />
-                        {user ? (
-                            <NavLink to='/signIn'>
-                                <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black hover:transition hover:delay-200'>
-                                    Sign Out
-                                </button>
-                            </NavLink>
-                        ) : (
-                            <NavLink to='/signIn'>
-                                <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-2 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>
-                                    SIGN IN
-                                </button>
-                            </NavLink>
-                        )}
-                    </div>
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex flex-grow justify-center">
+          <ul className="flex space-x-6 items-center">{links}</ul>
+        </nav>
 
-                    <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-                            </svg>
-                        </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-                        >
-                            {links}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </Slide>
-    );
+        {/* Right Side: Search & Auth */}
+        <div className="flex items-center gap-3 lg:gap-4">
+          <FaSearch className="text-white text-lg cursor-pointer" />
 
-    return (
-        <>
-            {/* Static navbar shown always in any section where it will be used */}
-            <div className="relative z-10">
-                {renderNavbarContent()}
-            </div>
+          {/* Desktop Auth */}
+          <div className="hidden lg:block">
+            {user ? (
+              <button
+                onClick={signOutUser}
+                className="bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-white text-xs sm:text-sm py-2 px-5 hover:bg-[#e4d804] hover:text-black transition-all"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <NavLink to='/signIn'>
+                <button className="bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-white text-xs sm:text-sm py-2 px-5 hover:bg-[#e4d804] hover:text-black transition-all">
+                  SIGN IN
+                </button>
+              </NavLink>
+            )}
+          </div>
 
-            {/* Sticky navbar shown only after scroll */}
-            <div className={`w-full fixed top-0 left-0 bg-gray-900 bg-opacity-80 shadow-md backdrop-blur z-50 transition-transform duration-300 ${showSticky ? 'translate-y-0' : '-translate-y-full'}`}>
-                <div className='w-10/12 mx-auto'>
-                    {renderNavbarContent()}
-                </div>
-            </div>
-        </>
-    );
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden text-white ml-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Nav */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-gray-900 bg-opacity-95 py-6 px-6">
+          <ul className="flex flex-col gap-5 mb-4">{links}</ul>
+
+          {/* Mobile Auth */}
+          <div className="mt-4">
+            {user ? (
+              <button
+                onClick={signOutUser}
+                className="w-full text-center bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-white text-sm py-2 hover:bg-[#e4d804] hover:text-black transition-all"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <NavLink to='/signIn' onClick={() => setIsMobileMenuOpen(false)}>
+                <button className="w-full text-center bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-white text-sm py-2 hover:bg-[#e4d804] hover:text-black transition-all">
+                  SIGN IN
+                </button>
+              </NavLink>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Navbar;

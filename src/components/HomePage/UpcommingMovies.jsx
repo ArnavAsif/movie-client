@@ -1,24 +1,47 @@
-import blackBg from '../../assets/theme bg.png'
-import MovieHero from '../Movies/MovieHero';
+import blackBg from '../../assets/theme bg.png';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+import MoviesCard from '../Movies/MoviesCard';
 
-const UpcommingMovies = () => {
+const UpcomingMovies = () => {
+    useEffect(() => {
+        Aos.init({
+            duration: 1000,
+            once: false,
+        });
+    }, []);
+
     return (
-        <div className=' bg-cover bg-no-repeat' style={{ backgroundImage: `url(${blackBg})` }}>
-            <div className='w-10/12 mx-auto pt-25'>
-                <p className='text-[#e4d804] text-xs font-medium mb-3'>ONLINE STREAMING</p>
-                <h2 className='font-bold text-4xl text-white mb-15'>Upcoming Movies</h2>
-                <div className='flex justify-center gap-5'>
-                    <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-3 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>TV Shows</button>
-                    <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-3 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>Documentary</button>
-                    <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-3 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>Movies</button>
-                    <button className='bg-[#12151e] border-2 border-[#e4d804] rounded-full font-bold text-[#e3dfdf] text-xs py-3 px-8 hover:bg-[#e4d804] hover:text-black transition delay-100 ease-in-out'>Sports</button>
+        <div
+            className="bg-cover bg-no-repeat bg-center py-20"
+            style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(28,27,31,0.5)), url(${blackBg})`,
+            }}
+        >
+            <div className="w-full max-w-screen-xl px-4 sm:px-6 md:px-10 mx-auto">
+                {/* Section Header */}
+                <div
+                    className="flex flex-col justify-center items-center text-center mb-12"
+                    data-aos="fade-up"
+                >
+                    <p className="text-[#e4d804] text-xs font-medium tracking-wide mb-2">
+                        ONLINE STREAMING
+                    </p>
+                    <h2 className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl mb-4">
+                        Upcoming Movies
+                    </h2>
                 </div>
-                <div>
-                    <MovieHero></MovieHero>
+
+                
+
+                {/* Movies Grid or Slider */}
+                <div data-aos="fade-up">
+                    <MoviesCard></MoviesCard>
                 </div>
             </div>
         </div>
     );
 };
 
-export default UpcommingMovies;
+export default UpcomingMovies;

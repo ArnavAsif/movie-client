@@ -8,7 +8,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 const SignUp = () => {
-    const {singUpEmail} = useContext(AuthContext)
+    const { singUpEmail } = useContext(AuthContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,38 +16,38 @@ const SignUp = () => {
         const lastName = e.target.lastName.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const displayName = `${firstName} ${lastName}`
+        const displayName = `${firstName} ${lastName}`;
         console.log({ firstName, lastName, email, password });
         singUpEmail(email, password)
-        .then(result => {
-            const user = result.user;
-            updateProfile(user, {
-                displayName: displayName
+            .then((result) => {
+                const user = result.user;
+                updateProfile(user, {
+                    displayName: displayName,
+                })
+                    .then(() => {
+                        console.log("User name updated", user);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                console.log(result.user);
             })
-            .then(()=>{
-                console.log('User name updated', user)
-            })
-            .catch(error =>{
-                console.log(error)
-            })
-            console.log(result.user)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
         <div
-            className="bg-no-repeat bg-cover"
+            className="bg-no-repeat bg-cover min-h-screen"
             style={{ backgroundImage: `url(${loginAndSignupBG})` }}
         >
             <div className="w-10/12 mx-auto">
                 <Navbar />
-                <div className="min-h-screen px-20 flex items-center justify-end">
+                <div className="min-h-screen flex items-center justify-center md:justify-end px-4 md:px-20">
                     <Fade direction="up" duration={800} triggerOnce>
-                        <div className="bg-white shadow-2xl rounded-2xl px-8 py-20 w-full max-w-md">
-                            <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+                        <div className="bg-white shadow-2xl rounded-2xl px-6 sm:px-8 py-16 sm:py-20 w-full max-w-md mx-auto md:mx-0">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">
                                 Sign Up
                             </h2>
 
@@ -61,7 +61,7 @@ const SignUp = () => {
                             </div>
 
                             <form onSubmit={handleSubmit} className="space-y-4">
-                                <div className="flex gap-4">
+                                <div className="flex flex-col sm:flex-row gap-4">
                                     <input
                                         type="text"
                                         name="firstName"
@@ -102,10 +102,7 @@ const SignUp = () => {
 
                             <p className="text-center text-sm text-gray-600 mt-4">
                                 Already have an account?{" "}
-                                <a
-                                    href="/signin"
-                                    className="text-indigo-600 hover:underline"
-                                >
+                                <a href="/signin" className="text-indigo-600 hover:underline">
                                     Sign In
                                 </a>
                             </p>

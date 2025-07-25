@@ -3,7 +3,7 @@ import hero from '../../assets/main bg.webp'
 import { FiDownload } from "react-icons/fi";
 const MovieHero = () => {
     return (
-        <div className="bg-gray-900 text-white px-4 md:px-8 py-6 md:py-10 flex flex-col md:flex-row items-center relative rounded-lg gap-6 md:gap-8">
+        <div className="bg-gray-900 w-10/12 text-white px-4 md:px-8 py-6 md:py-10 flex flex-col md:flex-row items-center relative rounded-lg gap-6 md:gap-8">
             {/* Left: Poster */}
             <div className="relative w-full md:w-1/4 max-w-xs">
                 <img
